@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ricettario.data;
+package com.raffaelemancino.ricettario.data;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -90,7 +90,7 @@ public class RicettaingredientePK implements Serializable
     @Override
     public String toString()
     {
-        return "data.RicettaingredientePK[ idr=" + idr + ", idi=" + idi + " ]";
+        return "com.ricettario.dataxml.RicettaingredientePK[ idr=" + idr + ", idi=" + idi + " ]";
     }
     
 }

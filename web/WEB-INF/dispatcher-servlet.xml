@@ -16,8 +16,9 @@
 
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
     
-    <context:component-scan base-package="com.ricettario.core"/>
+    <context:component-scan base-package="com.raffaelemancino.ricettario.core"/>
     <mvc:annotation-driven />
+    <mvc:default-servlet-handler/>
     
     
     <!--
@@ -43,4 +44,7 @@
         class="org.springframework.web.servlet.mvc.ParameterizableViewController"
         p:viewName="index" />
     -->
+    <bean name="indexController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="index" />
 </beans>

@@ -5,3 +5,12 @@
  */
 
 
+var application = angular.module('ricettario', []);
+
+application.controller("controller", function($scope, $http) {
+        
+        $http.get('ricettafindall').
+            then(function(response) {
+                $scope.rest = response.data;
+            });
+    });

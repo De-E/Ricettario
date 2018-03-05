@@ -3,21 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ricettario.core;
+package com.raffaelemancino.ricettario.core;
 
-import com.ricettario.configuration.HibernateConf;
-import com.ricettario.data.Ricetta;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import com.raffaelemancino.ricettario.configuration.HibernateConf;
+import com.raffaelemancino.ricettario.data.Ricetta;
 import java.util.List;
-import java.util.Map;
 import org.hibernate.Session;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -25,27 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 @RestController
-public class RestDemoController
+public class RestfulController
 {
-    private List<String> dataList = new ArrayList<String>(Arrays.asList("Spring","Rest","SRC"));
-    
-    @RequestMapping("/getData")
-    public Data getData(@RequestParam(value="id") Integer id)
-    {
-        return new Data(id, dataList.get(id));
-    }
-    
-    @RequestMapping("/getAllData")
-    public List<Data> getData()
-    {
-        List<Data> list = new ArrayList<>();
-        for (int i=0; i<dataList.size(); i++)
-        {
-            list.add(new Data(i, dataList.get(i)));
-        }
-        return list;
-    }
-    
     @RequestMapping("/ricettafindall")
     public Bean ricettaFindAll()
     {
@@ -56,6 +31,7 @@ public class RestDemoController
         
         
         Bean a = new Bean();
+        a.setTxt("Test per prova");
         a.setValues(ricette);
         return a;
     }

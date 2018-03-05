@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ricettario.data;
+package com.raffaelemancino.ricettario.data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -48,9 +49,11 @@ public class Ricettaingrediente implements Serializable
     @Column(name = "misura")
     private String misura;
     @JoinColumn(name = "idi", referencedColumnName = "idi", insertable = false, updatable = false)
+    @JsonBackReference
     @ManyToOne(optional = false)
     private Ingrediente ingrediente;
     @JoinColumn(name = "idr", referencedColumnName = "idr", insertable = false, updatable = false)
+    @JsonBackReference
     @ManyToOne(optional = false)
     private Ricetta ricetta;
 
@@ -151,7 +154,7 @@ public class Ricettaingrediente implements Serializable
     @Override
     public String toString()
     {
-        return "data.Ricettaingrediente[ ricettaingredientePK=" + ricettaingredientePK + " ]";
+        return "com.ricettario.dataxml.Ricettaingrediente[ ricettaingredientePK=" + ricettaingredientePK + " ]";
     }
     
 }

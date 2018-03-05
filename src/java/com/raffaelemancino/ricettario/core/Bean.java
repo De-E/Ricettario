@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ricettario.core;
+package com.raffaelemancino.ricettario.core;
 
 import java.util.List;
 
@@ -13,6 +13,17 @@ import java.util.List;
  */
 public class Bean
 {
+    public String txt;
+
+    public String getTxt()
+    {
+        return txt;
+    }
+
+    public void setTxt(String txt)
+    {
+        this.txt = txt;
+    }
     public List values;
 
     public List getValues()

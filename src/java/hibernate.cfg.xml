@@ -8,8 +8,8 @@
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">root</property>
     
-    <mapping class="com.ricettario.data.Ricetta"></mapping>
-    <mapping class="com.ricettario.data.Ricettaingrediente"></mapping>
-    <mapping class="com.ricettario.data.Ingrediente"></mapping>
+    <mapping class="com.raffaelemancino.ricettario.data.Ricetta"></mapping>
+    <mapping class="com.raffaelemancino.ricettario.data.Ricettaingrediente"></mapping>
+    <mapping class="com.raffaelemancino.ricettario.data.Ingrediente"></mapping>
   </session-factory>
 </hibernate-configuration>

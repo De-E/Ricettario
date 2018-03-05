@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ricettario.configuration;
+package com.raffaelemancino.ricettario.configuration;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,6 +31,4 @@ public class HibernateConf
         this.sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         this.session = sessionFactory.openSession();
     }
-    
-    
 }

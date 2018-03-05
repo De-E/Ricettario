@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ricettario.data;
+package com.raffaelemancino.ricettario.data;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -46,6 +47,7 @@ public class Ingrediente implements Serializable
     @Size(max = 50)
     @Column(name = "nome")
     private String nome;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingrediente")
     private Collection<Ricettaingrediente> ricettaingredienteCollection;
 
@@ -116,7 +118,7 @@ public class Ingrediente implements Serializable
     @Override
     public String toString()
     {
-        return "data.Ingrediente[ idi=" + idi + " ]";
+        return "com.ricettario.dataxml.Ingrediente[ idi=" + idi + " ]";
     }
     
 }
