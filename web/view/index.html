@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2018 Raffaele Francesco Mancino
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+-->
+<html ng-app="ricettario" ng-controller="controller" >
+    <head>
+        <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" href="img/favicon.ico"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Ricettario</title>
+    </head>
+
+    <body>
+        <h1>{{rest.txt}}</h1>
+        {{rest.values}}
+        <div ng-view></div>
+        
+        <!-- Libs -->
+        <script src="node_modules/angular/angular.min.js" type="text/javascript"></script>
+        <script src="node_modules/angular-route/angular-route.min.js" type="text/javascript"></script>
+        <script src="node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+    </body>
+    
+</html>

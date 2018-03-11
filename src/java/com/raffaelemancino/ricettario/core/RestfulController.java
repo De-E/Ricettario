@@ -5,11 +5,13 @@
  */
 package com.raffaelemancino.ricettario.core;
 
+import com.raffaelemancino.ricettario.configuration.Application;
 import com.raffaelemancino.ricettario.configuration.HibernateConf;
 import com.raffaelemancino.ricettario.data.Ricetta;
 import java.util.List;
 import org.hibernate.Session;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,30 +23,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RestfulController
 {
-    @RequestMapping("/ricettafindall")
+    @RequestMapping(value = "/ricettafindall", method = RequestMethod.GET)
     public Bean ricettaFindAll()
     {
-        Session session = new HibernateConf().session;
-        //List<Ricetta> ricette= session.createQuery("SELECT r FROM Ricetta r").list();
         List<Ricetta> ricette;
-        ricette = session.getNamedQuery("Ricetta.findAll").list();
+        ricette = Application.hibernate.session.getNamedQuery("Ricetta.findAll").list();
         
         
         Bean a = new Bean();
-        a.setTxt("Test per prova");
+        a.setTxt("Il sistema REST funzia");
         a.setValues(ricette);
         return a;
     }
     
-    @RequestMapping("/ricettafind")
+    @RequestMapping(value = "/ricettafind", method = RequestMethod.GET)
     public Ricetta ricettaFind(@RequestParam int id)
     {
-        Session session = new HibernateConf().session;
-        List<Ricetta> ricette;
-        ricette = session.getNamedQuery("Ricetta.findByIdr").setInteger("idr", id).list();
-        Ricetta ricetta = ricette.get(0);
+        Ricetta ricetta = (Ricetta)Application.hibernate.session.getNamedQuery("Ricetta.findByIdr").setInteger("idr", id)
+                .list()
+                .get(0);
         
         return ricetta;
     }
     
+    @RequestMapping(value = "/ricettainsert", method = RequestMethod.GET)
+    public boolean ricettaInsert()
+    {
+        return true;
+    }
 }
