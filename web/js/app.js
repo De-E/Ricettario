@@ -92,6 +92,11 @@ application.controller("listRicettaController", function ($scope, $http)
                 delete element;
         });
     };
+    
+    $scope.search = function ()
+    {
+        console.log(document.getElementById("searchbar").value);
+    }
 });
 
 application.controller("readRicettaController", function ($scope, $http, $routeParams)
