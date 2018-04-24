@@ -5,12 +5,16 @@
  */
 package com.raffaelemancino.ricettario.core;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.raffaelemancino.ricettario.core.view.IngredientiPerRicetta;
 import com.raffaelemancino.ricettario.configuration.Application;
+import com.raffaelemancino.ricettario.data.Ingrediente;
 import com.raffaelemancino.ricettario.data.Ricetta;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,24 +41,27 @@ public class RestfulController
     }
     
     @RequestMapping(value = "/readR", method = RequestMethod.GET)
-    public Ricetta ricettaFind(@RequestParam int id)
+    public Ricetta ricettaFind(@RequestParam int idr)
     {
         Ricetta ricetta = (Ricetta)this.session.getNamedQuery("Ricetta.findByIdr")
-            .setInteger("idr", id)
+            .setInteger("idr", idr)
             .list()
             .get(0);
         
         return ricetta;
     }
     
-    @RequestMapping(value = "/readI", method = RequestMethod.GET)
-    public ArrayList<IngredientiPerRicetta> getIngredients(@RequestParam int idr)
+    @RequestMapping(value = "/readIR", method = RequestMethod.GET)
+    public List getIngredientsRicetta(@RequestParam int idr)
     {
-        ArrayList<IngredientiPerRicetta> ret = new ArrayList<>();
-        String query = "SELECT qt, misura, ing.nome FROM ricetta JOIN ( ricettaingrediente NATURAL JOIN ingrediente AS ing) ON ricetta.idr = ricettaingrediente.idr AND ricetta.idr = :idr";
-        ret = (ArrayList<IngredientiPerRicetta>)this.session.createSQLQuery(query)
+        List<Ingrediente> ret = new ArrayList<>();
+        
+        String query = "SELECT ing.* FROM ricetta JOIN ( ricettaingrediente NATURAL JOIN ingrediente AS ing) ON ricetta.idr = ricettaingrediente.idr AND ricetta.idr = :idr";
+        List list;
+        list = this.session.createSQLQuery(query)
                 .setInteger("idr", idr)
                 .list();
+        
         return ret;
     }
     

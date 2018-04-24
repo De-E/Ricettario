@@ -17,13 +17,69 @@
  */
 package com.raffaelemancino.ricettario.core.view;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Raffaele Francesco Mancino
  */
-public class IngredientiPerRicetta
+@Entity
+@Table
+public class IngredientiPerRicetta implements Serializable
 {
-    public Integer qt;
-    public String misura;
-    public String nome;
+    @Id
+    @Column
+    private Integer id;
+    @Column
+    private Integer qt;
+    @Column
+    private String misura;
+    @Column
+    private String nome;
+
+    public Integer getQt()
+    {
+        return qt;
+    }
+
+    public void setQt(Integer qt)
+    {
+        this.qt = qt;
+    }
+
+    public String getMisura()
+    {
+        return misura;
+    }
+
+    public void setMisura(String misura)
+    {
+        this.misura = misura;
+    }
+
+    public String getNome()
+    {
+        return nome;
+    }
+
+    public void setNome(String nome)
+    {
+        this.nome = nome;
+    }
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    public void setId(Integer id)
+    {
+        this.id = id;
+    }
+    
+    
 }

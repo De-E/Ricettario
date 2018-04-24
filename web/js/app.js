@@ -13,7 +13,7 @@ application.config(function ($routeProvider)
     .when("/", {
         templateUrl : "view/listRicetta.html",
         controller : "listRicettaController"
-    }).when("readR/:ID", {
+    }).when("/readR/:ID", {
         templateUrl : "view/readRicetta.html",
         controller : "readRicettaController"
     });
@@ -89,7 +89,6 @@ application.controller("listRicettaController", function ($scope, $http)
                         document.createElement("hr")
                     );
                 }
-                
                 delete element;
         });
     };
@@ -97,12 +96,25 @@ application.controller("listRicettaController", function ($scope, $http)
 
 application.controller("readRicettaController", function ($scope, $http, $routeParams)
 {
-    $scope.id = $routeParams.ID;
-    console.log($routeParams.ID);
-    $scope.a = "A";
+    var id=$routeParams.ID;
     
-    $scope.init = function ()
+    $scope.getRicetta = function ()
     {
-        console.log("Hello");
+        $http.get("/Ricettario/readR?idr="+id)
+            .then(function (response)
+            {
+                var rest = response.data;
+                
+                document.getElementById("name").innerHTML = rest.name;
+                
+                document.getElementById("desc").innerHTML = rest.desc;
+            });
+        
+        $http.get("/Ricettario/readIR?idr="+id)
+            .then(function (response)
+            {
+                var rest = response.data;
+                console.log(rest);
+            });
     };
 });
