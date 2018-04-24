@@ -114,7 +114,16 @@ application.controller("readRicettaController", function ($scope, $http, $routeP
             .then(function (response)
             {
                 var rest = response.data;
-                console.log(rest);
+                var ingredients = document.getElementById("ingredients");
+                for (var i=0; i<rest.length; i++)
+                {
+                    var div = document.createElement("div");
+                    div.setAttribute("class", "align-content-center");
+                    div.innerHTML = rest[i].nome;
+                    
+                    ingredients.appendChild(div);
+                    ingredients.appendChild(document.createElement("hr"));
+                }
             });
     };
 });

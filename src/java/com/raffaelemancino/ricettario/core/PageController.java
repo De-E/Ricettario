@@ -20,4 +20,10 @@ public class PageController
     {
         return "index";
     }
+    
+    @RequestMapping(value = "")
+    public String redirect()
+    {
+        return "redirect:/";
+    }
 }

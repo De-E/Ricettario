@@ -6,11 +6,14 @@
 package com.raffaelemancino.ricettario.core;
 
 import com.raffaelemancino.ricettario.configuration.Application;
+import com.raffaelemancino.ricettario.core.view.IngredientiPerRicetta;
 import com.raffaelemancino.ricettario.data.Ingrediente;
 import com.raffaelemancino.ricettario.data.Ricetta;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,14 +53,13 @@ public class RestfulController
     @RequestMapping(value = "/readIR", method = RequestMethod.GET)
     public List getIngredientsRicetta(@RequestParam int idr)
     {
-        List<Ingrediente> ret = new ArrayList<>();
+        List<IngredientiPerRicetta> ret = new ArrayList<>();
         
-        String query = "SELECT ing.* FROM ricetta JOIN ( ricettaingrediente NATURAL JOIN ingrediente AS ing) ON ricetta.idr = ricettaingrediente.idr AND ricetta.idr = :idr";
-        List list;
-        list = this.session.createSQLQuery(query)
+        String query = "SELECT qt, misura, i.nome FROM ricetta AS r JOIN ( ricettaingrediente AS ri NATURAL JOIN ingrediente AS i) ON r.idr = ri.idr AND r.idr = :idr";
+        ret = (List<IngredientiPerRicetta>)this.session.createSQLQuery(query)
                 .setInteger("idr", idr)
+                .setResultTransformer(Transformers.aliasToBean(IngredientiPerRicetta.class))
                 .list();
-        
         return ret;
     }
     
