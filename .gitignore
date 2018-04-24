@@ -1,3 +1,2 @@
-/lib/
-/nbproject/
-/web/node_modules/
+/nbproject/*
+/web/node_modules/*

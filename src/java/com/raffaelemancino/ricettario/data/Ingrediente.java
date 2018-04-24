@@ -1,26 +1,33 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2018 Raffaele Francesco Mancino
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package com.raffaelemancino.ricettario.data;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -47,9 +54,6 @@ public class Ingrediente implements Serializable
     @Size(max = 50)
     @Column(name = "nome")
     private String nome;
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingrediente")
-    private Collection<Ricettaingrediente> ricettaingredienteCollection;
 
     public Ingrediente()
     {
@@ -80,17 +84,6 @@ public class Ingrediente implements Serializable
         this.nome = nome;
     }
 
-    @XmlTransient
-    public Collection<Ricettaingrediente> getRicettaingredienteCollection()
-    {
-        return ricettaingredienteCollection;
-    }
-
-    public void setRicettaingredienteCollection(Collection<Ricettaingrediente> ricettaingredienteCollection)
-    {
-        this.ricettaingredienteCollection = ricettaingredienteCollection;
-    }
-
     @Override
     public int hashCode()
     {
@@ -118,7 +111,7 @@ public class Ingrediente implements Serializable
     @Override
     public String toString()
     {
-        return "com.ricettario.dataxml.Ingrediente[ idi=" + idi + " ]";
+        return "com.raffaelemancino.ricettario.data.Ingrediente[ idi=" + idi + " ]";
     }
     
 }

@@ -1,24 +1,33 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2018 Raffaele Francesco Mancino
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package com.raffaelemancino.ricettario.data;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -26,14 +35,16 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "ricetta")
+@XmlRootElement
 @NamedQueries(
 {
     @NamedQuery(name = "Ricetta.findAll", query = "SELECT r FROM Ricetta r"),
     @NamedQuery(name = "Ricetta.findByIdr", query = "SELECT r FROM Ricetta r WHERE r.idr = :idr"),
-    @NamedQuery(name = "Ricetta.findByTempo", query = "SELECT r FROM Ricetta r WHERE r.tempo = :tempo"),
-    @NamedQuery(name = "Ricetta.findByTemperatura", query = "SELECT r FROM Ricetta r WHERE r.temperatura = :temperatura"),
-    @NamedQuery(name = "Ricetta.findByNome", query = "SELECT r FROM Ricetta r WHERE r.nome = :nome"),
-    @NamedQuery(name = "Ricetta.findByDescrizione", query = "SELECT r FROM Ricetta r WHERE r.descrizione = :descrizione")
+    @NamedQuery(name = "Ricetta.findByTimer", query = "SELECT r FROM Ricetta r WHERE r.timer = :timer"),
+    @NamedQuery(name = "Ricetta.findByTemp", query = "SELECT r FROM Ricetta r WHERE r.temp = :temp"),
+    @NamedQuery(name = "Ricetta.findByName", query = "SELECT r FROM Ricetta r WHERE r.name = :name"),
+    @NamedQuery(name = "Ricetta.findByDesc", query = "SELECT r FROM Ricetta r WHERE r.desc = :desc"),
+    @NamedQuery(name = "Ricetta.findByShortdesc", query = "SELECT r FROM Ricetta r WHERE r.shortdesc = :shortdesc")
 })
 public class Ricetta implements Serializable
 {
@@ -44,23 +55,19 @@ public class Ricetta implements Serializable
     @NotNull
     @Column(name = "idr")
     private Integer idr;
-    @Column(name = "tempo")
-    private Integer tempo;
-    @Column(name = "temperatura")
-    private Integer temperatura;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "nome")
-    private String nome;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 250)
-    @Column(name = "descrizione")
-    private String descrizione;
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ricetta")
-    private Collection<Ricettaingrediente> ricettaingredienteCollection;
+    @Column(name = "timer")
+    private Integer timer;
+    @Column(name = "temp")
+    private Integer temp;
+    @Size(max = 50)
+    @Column(name = "name")
+    private String name;
+    @Size(max = 250)
+    @Column(name = "desc")
+    private String desc;
+    @Size(max = 50)
+    @Column(name = "shortdesc")
+    private String shortdesc;
 
     public Ricetta()
     {
@@ -69,13 +76,6 @@ public class Ricetta implements Serializable
     public Ricetta(Integer idr)
     {
         this.idr = idr;
-    }
-
-    public Ricetta(Integer idr, String nome, String descrizione)
-    {
-        this.idr = idr;
-        this.nome = nome;
-        this.descrizione = descrizione;
     }
 
     public Integer getIdr()
@@ -88,54 +88,54 @@ public class Ricetta implements Serializable
         this.idr = idr;
     }
 
-    public Integer getTempo()
+    public Integer getTimer()
     {
-        return tempo;
+        return timer;
     }
 
-    public void setTempo(Integer tempo)
+    public void setTimer(Integer timer)
     {
-        this.tempo = tempo;
+        this.timer = timer;
     }
 
-    public Integer getTemperatura()
+    public Integer getTemp()
     {
-        return temperatura;
+        return temp;
     }
 
-    public void setTemperatura(Integer temperatura)
+    public void setTemp(Integer temp)
     {
-        this.temperatura = temperatura;
+        this.temp = temp;
     }
 
-    public String getNome()
+    public String getName()
     {
-        return nome;
+        return name;
     }
 
-    public void setNome(String nome)
+    public void setName(String name)
     {
-        this.nome = nome;
+        this.name = name;
     }
 
-    public String getDescrizione()
+    public String getDesc()
     {
-        return descrizione;
+        return desc;
     }
 
-    public void setDescrizione(String descrizione)
+    public void setDesc(String desc)
     {
-        this.descrizione = descrizione;
+        this.desc = desc;
     }
 
-    public Collection<Ricettaingrediente> getRicettaingredienteCollection()
+    public String getShortdesc()
     {
-        return ricettaingredienteCollection;
+        return shortdesc;
     }
 
-    public void setRicettaingredienteCollection(Collection<Ricettaingrediente> ricettaingredienteCollection)
+    public void setShortdesc(String shortdesc)
     {
-        this.ricettaingredienteCollection = ricettaingredienteCollection;
+        this.shortdesc = shortdesc;
     }
 
     @Override
@@ -165,7 +165,7 @@ public class Ricetta implements Serializable
     @Override
     public String toString()
     {
-        return "com.ricettario.dataxml.Ricetta[ idr=" + idr + " ]";
+        return "com.raffaelemancino.ricettario.data.Ricetta[ idr=" + idr + " ]";
     }
     
 }

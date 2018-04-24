@@ -1,18 +1,27 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2018 Raffaele Francesco Mancino
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package com.raffaelemancino.ricettario.data;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -48,14 +57,6 @@ public class Ricettaingrediente implements Serializable
     @Size(max = 50)
     @Column(name = "misura")
     private String misura;
-    @JoinColumn(name = "idi", referencedColumnName = "idi", insertable = false, updatable = false)
-    @JsonBackReference
-    @ManyToOne(optional = false)
-    private Ingrediente ingrediente;
-    @JoinColumn(name = "idr", referencedColumnName = "idr", insertable = false, updatable = false)
-    @JsonBackReference
-    @ManyToOne(optional = false)
-    private Ricetta ricetta;
 
     public Ricettaingrediente()
     {
@@ -107,26 +108,6 @@ public class Ricettaingrediente implements Serializable
         this.misura = misura;
     }
 
-    public Ingrediente getIngrediente()
-    {
-        return ingrediente;
-    }
-
-    public void setIngrediente(Ingrediente ingrediente)
-    {
-        this.ingrediente = ingrediente;
-    }
-
-    public Ricetta getRicetta()
-    {
-        return ricetta;
-    }
-
-    public void setRicetta(Ricetta ricetta)
-    {
-        this.ricetta = ricetta;
-    }
-
     @Override
     public int hashCode()
     {
@@ -154,7 +135,7 @@ public class Ricettaingrediente implements Serializable
     @Override
     public String toString()
     {
-        return "com.ricettario.dataxml.Ricettaingrediente[ ricettaingredientePK=" + ricettaingredientePK + " ]";
+        return "com.raffaelemancino.ricettario.data.Ricettaingrediente[ ricettaingredientePK=" + ricettaingredientePK + " ]";
     }
     
 }
