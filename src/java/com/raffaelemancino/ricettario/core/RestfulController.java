@@ -5,16 +5,12 @@
  */
 package com.raffaelemancino.ricettario.core;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.raffaelemancino.ricettario.core.view.IngredientiPerRicetta;
 import com.raffaelemancino.ricettario.configuration.Application;
 import com.raffaelemancino.ricettario.data.Ingrediente;
 import com.raffaelemancino.ricettario.data.Ricetta;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
