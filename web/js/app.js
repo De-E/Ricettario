@@ -16,6 +16,9 @@ application.config(function ($routeProvider)
     }).when("/readR/:ID", {
         templateUrl : "view/readRicetta.html",
         controller : "readRicettaController"
+    }).when("/insertR", {
+        templateUrl : "view/insertRicetta.html",
+        controller : "insertRicettaController"
     });
 });
 
@@ -41,6 +44,10 @@ application.controller("controller", function($scope, $http)
 
 application.controller("listRicettaController", function ($scope, $http)
 {
+    /**
+     * Clean the list space.
+     * 
+     */
     $scope.clean = function()
     {
         var oldelements = document.getElementById("listRicettaContainer");
@@ -49,6 +56,10 @@ application.controller("listRicettaController", function ($scope, $http)
         delete oldelements;
     }
     
+    /**
+     * Fill the list space with array content.
+     * @param {vector} array array of ricette.
+     */
     $scope.enroll = function(array)
     {
         var listRicettaContainer = document.getElementById("listRicettaContainer");
@@ -63,6 +74,7 @@ application.controller("listRicettaController", function ($scope, $http)
             var h = document.createElement("h2");
             h.setAttribute("class","post-title");
             h.innerHTML=array[i].name;
+            console.log(array[i].name);
             a.appendChild(h);
             h = document.createElement("h3");
             h.setAttribute("class","post-subtitle");
@@ -130,16 +142,33 @@ application.controller("readRicettaController", function ($scope, $http, $routeP
             .then(function (response)
             {
                 var rest = response.data;
+                
                 var ingredients = document.getElementById("ingredients");
+                var table = document.createElement("table");
+                table.setAttribute("style", "width:100%")
+                
                 for (var i=0; i<rest.length; i++)
                 {
-                    var div = document.createElement("div");
-                    div.setAttribute("class", "align-content-center");
-                    div.innerHTML = rest[i].nome;
+                    var tr = document.createElement("tr");
+                    var td = document.createElement("td");
+                    td.innerHTML = rest[i].qt;
+                    tr.appendChild(td);
+                    var td = document.createElement("td");
+                    td.innerHTML = rest[i].misura;
+                    tr.appendChild(td);
+                    var td = document.createElement("td");
+                    td.innerHTML = rest[i].nome;
+                    tr.appendChild(td);
                     
-                    ingredients.appendChild(div);
-                    ingredients.appendChild(document.createElement("hr"));
+                    table.appendChild(tr);    
                 }
+                ingredients.appendChild(table);
+                ingredients.appendChild(document.createElement("hr"));
             });
     };
+});
+
+application.controller("insertRicettaController", function ($scope, $http)
+{
+    $scope.whereIam = "Insert";
 });
