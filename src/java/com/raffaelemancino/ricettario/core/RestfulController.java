@@ -7,7 +7,6 @@ package com.raffaelemancino.ricettario.core;
 
 import com.raffaelemancino.ricettario.configuration.Application;
 import com.raffaelemancino.ricettario.core.view.IngredientiPerRicetta;
-import com.raffaelemancino.ricettario.data.Ingrediente;
 import com.raffaelemancino.ricettario.data.Ricetta;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,5 +78,17 @@ public class RestfulController
         {
             return false;
         }
+    }
+    
+    @RequestMapping(value = "/searchR", method = RequestMethod.GET)
+    public List searchRicetta(@RequestParam String param)
+    {
+        List<Ricetta> ret;
+        String query = "SELECT * FROM ricetta WHERE name ILIKE '%" + param + "%'";
+        ret = this.session.createSQLQuery(query)
+                .setResultTransformer(Transformers.aliasToBean(Ricetta.class))
+                .list();
+        
+        return ret;
     }
 }

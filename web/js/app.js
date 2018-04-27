@@ -41,61 +41,72 @@ application.controller("controller", function($scope, $http)
 
 application.controller("listRicettaController", function ($scope, $http)
 {
+    $scope.clean = function()
+    {
+        var oldelements = document.getElementById("listRicettaContainer");
+        oldelements.innerHTML = "";
+        oldelements.appendChild(document.createElement("hr"));
+        delete oldelements;
+    }
+    
+    $scope.enroll = function(array)
+    {
+        var listRicettaContainer = document.getElementById("listRicettaContainer");
+                
+        for(var i=0; i<array.length; i++)
+        {
+            var newelement = document.createElement("div");
+            newelement.setAttribute("class","post-preview");
+            var a = document.createElement("a");
+            a.setAttribute("href","#!/readR/"+array[i].idr);
+
+            var h = document.createElement("h2");
+            h.setAttribute("class","post-title");
+            h.innerHTML=array[i].name;
+            a.appendChild(h);
+            h = document.createElement("h3");
+            h.setAttribute("class","post-subtitle");
+            h.innerHTML=array[i].shortdesc;
+            a.appendChild(h);
+
+            var p = document.createElement("p");
+            p.setAttribute("class","post-meta");
+            p.innerHTML = "Ricettario of Raffaele F. Mancino";
+            a.appendChild(p)
+
+            newelement.appendChild(a);
+
+            listRicettaContainer.appendChild(newelement);
+            listRicettaContainer.appendChild(
+                document.createElement("hr")
+            );
+        }
+        delete element;
+    }
+    
     $scope.list = function()
     {
         $http.get('/Ricettario/listR').
             then(function(response) {
-                var rest = response.data;
                 
                 //clean previous elements
-                var oldelements = document.getElementsByClassName("post-preview");
-                if(oldelements.length>0)
-                {
-                    for(var i=oldelements.length-1; i>=0; i--)
-                    {
-                        oldelements.item(i).outerHTML="";
-                    }
-                }
-                delete oldelements;
+                $scope.clean();
                 
                 //insert new elements
-                var listRicettaContainer = document.getElementById("listRicettaContainer");
-                
-                for(var i=0; i<rest.length; i++)
-                {
-                    var newelement = document.createElement("div");
-                    newelement.setAttribute("class","post-preview");
-                    var a = document.createElement("a");
-                    a.setAttribute("href","#!/readR/"+rest[i].idr);
-                    
-                    var h = document.createElement("h2");
-                    h.setAttribute("class","post-title");
-                    h.innerHTML=rest[i].name;
-                    a.appendChild(h);
-                    h = document.createElement("h3");
-                    h.setAttribute("class","post-subtitle");
-                    h.innerHTML=rest[i].shortdesc;
-                    a.appendChild(h);
-                    
-                    var p = document.createElement("p");
-                    p.setAttribute("class","post-meta");
-                    p.innerHTML = "Ricettario of Raffaele F. Mancino";
-                    a.appendChild(p)
-                    
-                    newelement.appendChild(a);
-                    
-                    listRicettaContainer.appendChild(newelement);
-                    listRicettaContainer.appendChild(
-                        document.createElement("hr")
-                    );
-                }
-                delete element;
+                $scope.enroll(response.data);
         });
     };
     
     $scope.search = function ()
     {
-        console.log(document.getElementById("searchbar").value);
+        var param = document.getElementById("searchbar").value;
+        
+        $http.get("/Ricettario/searchR?param=" + param)
+            .then(function (response)
+            {
+                $scope.clean();
+                $scope.enroll(response.data);
+            });
     }
 });
 
