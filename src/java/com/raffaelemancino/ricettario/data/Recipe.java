@@ -1,19 +1,7 @@
 /*
- * Copyright (C) 2018 Raffaele Francesco Mancino
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.raffaelemancino.ricettario.data;
 
@@ -21,11 +9,12 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -33,45 +22,40 @@ import javax.validation.constraints.Size;
  * @author Raffaele Francesco Mancino
  */
 @Entity
-@Table(name = "ricetta")
+@Table(name = "recipe")
 @NamedQueries(
 {
-    @NamedQuery(name = "Ricetta.findAll", query = "SELECT r FROM Ricetta r"),
-    @NamedQuery(name = "Ricetta.findByIdr", query = "SELECT r FROM Ricetta r WHERE r.idr = :idr"),
-    @NamedQuery(name = "Ricetta.findByTimer", query = "SELECT r FROM Ricetta r WHERE r.timer = :timer"),
-    @NamedQuery(name = "Ricetta.findByTemp", query = "SELECT r FROM Ricetta r WHERE r.temp = :temp"),
-    @NamedQuery(name = "Ricetta.findByName", query = "SELECT r FROM Ricetta r WHERE r.name = :name"),
-    @NamedQuery(name = "Ricetta.findByDesc", query = "SELECT r FROM Ricetta r WHERE r.desc = :desc"),
-    @NamedQuery(name = "Ricetta.findByShortdesc", query = "SELECT r FROM Ricetta r WHERE r.shortdesc = :shortdesc")
+    @NamedQuery(name = "Recipe.findAll", query = "SELECT r FROM Recipe r")
 })
-public class Ricetta implements Serializable
+public class Recipe implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idr")
     private Integer idr;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "timer")
-    private Integer timer;
+    private Float timer;
     @Column(name = "temp")
     private Integer temp;
     @Size(max = 50)
     @Column(name = "name")
     private String name;
-    @Size(max = 250)
+    @Size(max = 200)
     @Column(name = "desc")
     private String desc;
     @Size(max = 50)
     @Column(name = "shortdesc")
     private String shortdesc;
 
-    public Ricetta()
+    public Recipe()
     {
     }
 
-    public Ricetta(Integer idr)
+    public Recipe(Integer idr)
     {
         this.idr = idr;
     }
@@ -86,12 +70,12 @@ public class Ricetta implements Serializable
         this.idr = idr;
     }
 
-    public Integer getTimer()
+    public Float getTimer()
     {
         return timer;
     }
 
-    public void setTimer(Integer timer)
+    public void setTimer(Float timer)
     {
         this.timer = timer;
     }
@@ -148,11 +132,11 @@ public class Ricetta implements Serializable
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Ricetta))
+        if (!(object instanceof Recipe))
         {
             return false;
         }
-        Ricetta other = (Ricetta) object;
+        Recipe other = (Recipe) object;
         if ((this.idr == null && other.idr != null) || (this.idr != null && !this.idr.equals(other.idr)))
         {
             return false;
@@ -163,7 +147,7 @@ public class Ricetta implements Serializable
     @Override
     public String toString()
     {
-        return "com.raffaelemancino.ricettario.data.Ricetta[ idr=" + idr + " ]";
+        return "com.raffaelemancino.ricettario.data.Recipe[ idr=" + idr + " ]";
     }
     
 }

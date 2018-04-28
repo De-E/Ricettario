@@ -24,6 +24,6 @@ package com.raffaelemancino.ricettario.core.view;
 public class IngredientiPerRicetta
 {
     public Integer qt;
-    public String misura;
-    public String nome;
+    public String unit;
+    public String name;
 }

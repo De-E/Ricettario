@@ -1,19 +1,7 @@
 /*
- * Copyright (C) 2018 Raffaele Francesco Mancino
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.raffaelemancino.ricettario.data;
 
@@ -28,7 +16,7 @@ import javax.validation.constraints.NotNull;
  * @author Raffaele Francesco Mancino
  */
 @Embeddable
-public class RicettaingredientePK implements Serializable
+public class RecipeingredientPK implements Serializable
 {
 
     @Basic(optional = false)
@@ -40,11 +28,11 @@ public class RicettaingredientePK implements Serializable
     @Column(name = "idi")
     private int idi;
 
-    public RicettaingredientePK()
+    public RecipeingredientPK()
     {
     }
 
-    public RicettaingredientePK(int idr, int idi)
+    public RecipeingredientPK(int idr, int idi)
     {
         this.idr = idr;
         this.idi = idi;
@@ -83,11 +71,11 @@ public class RicettaingredientePK implements Serializable
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RicettaingredientePK))
+        if (!(object instanceof RecipeingredientPK))
         {
             return false;
         }
-        RicettaingredientePK other = (RicettaingredientePK) object;
+        RecipeingredientPK other = (RecipeingredientPK) object;
         if (this.idr != other.idr)
         {
             return false;
@@ -102,7 +90,7 @@ public class RicettaingredientePK implements Serializable
     @Override
     public String toString()
     {
-        return "com.raffaelemancino.ricettario.data.RicettaingredientePK[ idr=" + idr + ", idi=" + idi + " ]";
+        return "com.raffaelemancino.ricettario.data.RecipeingredientPK[ idr=" + idr + ", idi=" + idi + " ]";
     }
     
 }

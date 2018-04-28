@@ -74,7 +74,6 @@ application.controller("listRicettaController", function ($scope, $http)
             var h = document.createElement("h2");
             h.setAttribute("class","post-title");
             h.innerHTML=array[i].name;
-            console.log(array[i].name);
             a.appendChild(h);
             h = document.createElement("h3");
             h.setAttribute("class","post-subtitle");

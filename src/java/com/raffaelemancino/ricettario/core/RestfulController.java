@@ -7,11 +7,10 @@ package com.raffaelemancino.ricettario.core;
 
 import com.raffaelemancino.ricettario.configuration.Application;
 import com.raffaelemancino.ricettario.core.view.IngredientiPerRicetta;
-import com.raffaelemancino.ricettario.data.Ricetta;
+import com.raffaelemancino.ricettario.data.Recipe;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,25 +31,29 @@ public class RestfulController
     @RequestMapping(value = "/listR", method = RequestMethod.GET)
     public List ricettaFindAll()
     {
-        List<Ricetta> ricette;
-        ricette = this.session.getNamedQuery("Ricetta.findAll").list();
+        List<Recipe> ret;
         
-        return ricette;
+        String query = "SELECT * FROM recipe LIMIT 100";
+        ret = this.session.createSQLQuery(query)
+                .setResultTransformer(Transformers.aliasToBean(Recipe.class))
+                .list();
+        
+        return ret;
     }
     
     @RequestMapping(value = "/readR", method = RequestMethod.GET)
-    public Ricetta ricettaFind(@RequestParam int idr)
+    public Recipe ricettaFind(@RequestParam int idr)
     {
-        Ricetta ricetta = (Ricetta)this.session.getNamedQuery("Ricetta.findByIdr")
+        Recipe ret = (Recipe)this.session.getNamedQuery("Recipe.findByIdr")
             .setInteger("idr", idr)
             .list()
             .get(0);
         
-        return ricetta;
+        return ret;
     }
     
     @RequestMapping(value = "/readIR", method = RequestMethod.GET)
-    public List getIngredientsRicetta(@RequestParam int idr)
+    public List getIngredientsRecipe(@RequestParam int idr)
     {
         List<IngredientiPerRicetta> ret = new ArrayList<>();
         
@@ -63,9 +66,9 @@ public class RestfulController
     }
     
     @RequestMapping(value = "/insertR", method = RequestMethod.POST)
-    public boolean ricettaInsert(@RequestBody Ricetta ricetta)
+    public boolean ricettaInsert(@RequestBody Recipe ricetta)
     {
-        Integer i = (Integer)this.session.createQuery("SELECT MAX(idr) FROM Ricetta").list().get(0);
+        Integer i = (Integer)this.session.createQuery("SELECT MAX(idr) FROM Recipe").list().get(0);
         ricetta.setIdr(i+1);
         
         try
@@ -81,12 +84,12 @@ public class RestfulController
     }
     
     @RequestMapping(value = "/searchR", method = RequestMethod.GET)
-    public List searchRicetta(@RequestParam String param)
+    public List searchRecipe(@RequestParam String param)
     {
-        List<Ricetta> ret;
+        List<Recipe> ret;
         String query = "SELECT * FROM ricetta WHERE name ILIKE '%" + param + "%'";
         ret = this.session.createSQLQuery(query)
-                .setResultTransformer(Transformers.aliasToBean(Ricetta.class))
+                .setResultTransformer(Transformers.aliasToBean(Recipe.class))
                 .list();
         
         return ret;
