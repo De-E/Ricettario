@@ -44,8 +44,11 @@ public class RestfulController
     @RequestMapping(value = "/readR", method = RequestMethod.GET)
     public Recipe ricettaFind(@RequestParam int idr)
     {
-        Recipe ret = (Recipe)this.session.getNamedQuery("Recipe.findByIdr")
+        String query = "SELECT * FROM recipe AS i WHERE i.idr = :idr";
+        
+        Recipe ret = (Recipe)this.session.createSQLQuery(query)
             .setInteger("idr", idr)
+            .setResultTransformer(Transformers.aliasToBean(Recipe.class))
             .list()
             .get(0);
         
@@ -57,7 +60,7 @@ public class RestfulController
     {
         List<IngredientiPerRicetta> ret = new ArrayList<>();
         
-        String query = "SELECT qt, misura, i.nome FROM ricetta AS r JOIN ( ricettaingrediente AS ri NATURAL JOIN ingrediente AS i) ON r.idr = ri.idr AND r.idr = :idr";
+        String query = "SELECT qt, unit, i.name FROM recipe AS r JOIN ( recipeingredient AS ri NATURAL JOIN ingredient AS i) ON r.idr = ri.idr AND r.idr = :idr";
         ret = (List<IngredientiPerRicetta>)this.session.createSQLQuery(query)
                 .setInteger("idr", idr)
                 .setResultTransformer(Transformers.aliasToBean(IngredientiPerRicetta.class))
@@ -68,7 +71,7 @@ public class RestfulController
     @RequestMapping(value = "/insertR", method = RequestMethod.POST)
     public boolean ricettaInsert(@RequestBody Recipe ricetta)
     {
-        Integer i = (Integer)this.session.createQuery("SELECT MAX(idr) FROM Recipe").list().get(0);
+        Integer i = (Integer)this.session.createQuery("SELECT MAX(idr) FROM recipe").list().get(0);
         ricetta.setIdr(i+1);
         
         try
@@ -87,7 +90,7 @@ public class RestfulController
     public List searchRecipe(@RequestParam String param)
     {
         List<Recipe> ret;
-        String query = "SELECT * FROM ricetta WHERE name ILIKE '%" + param + "%'";
+        String query = "SELECT * FROM recipe WHERE LOWER(name) LIKE LOWER('%" + param + "%')";
         ret = this.session.createSQLQuery(query)
                 .setResultTransformer(Transformers.aliasToBean(Recipe.class))
                 .list();

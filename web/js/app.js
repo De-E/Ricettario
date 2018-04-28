@@ -153,10 +153,10 @@ application.controller("readRicettaController", function ($scope, $http, $routeP
                     td.innerHTML = rest[i].qt;
                     tr.appendChild(td);
                     var td = document.createElement("td");
-                    td.innerHTML = rest[i].misura;
+                    td.innerHTML = rest[i].unit;
                     tr.appendChild(td);
                     var td = document.createElement("td");
-                    td.innerHTML = rest[i].nome;
+                    td.innerHTML = rest[i].name;
                     tr.appendChild(td);
                     
                     table.appendChild(tr);    

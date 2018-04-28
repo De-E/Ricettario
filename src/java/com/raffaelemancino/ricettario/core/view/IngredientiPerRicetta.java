@@ -23,7 +23,7 @@ package com.raffaelemancino.ricettario.core.view;
  */
 public class IngredientiPerRicetta
 {
-    public Integer qt;
+    public Float qt;
     public String unit;
     public String name;
 }
