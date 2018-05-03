@@ -24,22 +24,6 @@ application.config(function ($routeProvider)
 
 application.controller("controller", function($scope, $http)
 {
-    $scope.insert = function()
-    {
-        var ricetta = {
-            idr:0,
-            tempo:0,
-            temperatura:0,
-            nome:"",
-            descrizione:"",
-        };
-        
-        $http.post('/Ricettario/insertR', ricetta)
-            .then(function(response)
-            {
-                $scope.rest = response.data;
-            });
-    };
 });
 
 application.controller("listRicettaController", function ($scope, $http)
@@ -73,11 +57,11 @@ application.controller("listRicettaController", function ($scope, $http)
 
             var h = document.createElement("h2");
             h.setAttribute("class","post-title");
-            h.innerHTML=array[i].name;
+            h.innerHTML=array[i].namer;
             a.appendChild(h);
             h = document.createElement("h3");
             h.setAttribute("class","post-subtitle");
-            h.innerHTML=array[i].shortdesc;
+            h.innerHTML=array[i].shortdescr;
             a.appendChild(h);
 
             var p = document.createElement("p");
@@ -132,9 +116,9 @@ application.controller("readRicettaController", function ($scope, $http, $routeP
             {
                 var rest = response.data;
                 
-                document.getElementById("name").innerHTML = rest.name;
+                document.getElementById("namer").innerHTML = rest.namer;
                 
-                document.getElementById("desc").innerHTML = rest.desc;
+                document.getElementById("descr").innerHTML = rest.descr;
             });
         
         $http.get("/Ricettario/readIR?idr="+id)
@@ -156,7 +140,7 @@ application.controller("readRicettaController", function ($scope, $http, $routeP
                     td.innerHTML = rest[i].unit;
                     tr.appendChild(td);
                     var td = document.createElement("td");
-                    td.innerHTML = rest[i].name;
+                    td.innerHTML = rest[i].namei;
                     tr.appendChild(td);
                     
                     table.appendChild(tr);    
@@ -169,5 +153,68 @@ application.controller("readRicettaController", function ($scope, $http, $routeP
 
 application.controller("insertRicettaController", function ($scope, $http)
 {
-    $scope.whereIam = "Insert";
+    var idr_f = 0; //id inserted recipe
+    
+    $scope.listIngredients = function ()
+    {
+        $http.get("/Ricettario/listI")
+                .then(function (response)
+                {
+                    var rest = response.data;
+                    var select = document.getElementById("ilist");
+                    for(var i=0; i<rest.length; i++)
+                    {
+                        var option = document.createElement("option");
+                        option.innerHTML = rest[i].namer;
+                        console.log(rest[i].namer);
+                        select.appendChild(option);
+                    }
+                });
+    };
+    
+    $scope.addIngredient = function ()
+    {
+        var ingredient = document.getElementById("ingredient").cloneNode(true);
+        var ingredients = document.getElementById("ingredients");
+        ingredients.appendChild(ingredient);
+    };
+    
+    $scope.newIngredient = function ()
+    {
+        var namer = prompt("Nome ingrediente", "Inserire il nome");
+        /**
+         * creare metodo per inserire nuovo ingrediente
+         */
+        location.reload();
+    };
+    
+    $scope.insertRecipe = function ()
+    {
+        var namer = document.getElementById("namer").value;
+        var timer = document.getElementById("timer").value;
+        var temp = document.getElementById("temp").value;
+        var descr = document.getElementById("descr").value;
+        var shortdescr = document.getElementById("shortdescr").innerHTML;
+        
+        var recipe = {
+            "idr": 0,
+            "namer": namer,
+            "timer": timer,
+            "temp": temp,
+            "descr": descr,
+            "shortdescr": shortdescr
+        };
+        
+        $http.post('/Ricettario/insertR', recipe)
+            .then(function(response)
+            {
+                idr_f = response.data;
+                alert(idr_f);
+            });
+    };
+    
+    $scope.insertIngredientRecipe = function()
+    {
+        
+    };
 });

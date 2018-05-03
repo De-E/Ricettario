@@ -37,8 +37,8 @@ public class Ingredient implements Serializable
     @Column(name = "idi")
     private Integer idi;
     @Size(max = 50)
-    @Column(name = "name")
-    private String name;
+    @Column(name = "namei")
+    private String namei;
 
     public Ingredient()
     {
@@ -59,14 +59,14 @@ public class Ingredient implements Serializable
         this.idi = idi;
     }
 
-    public String getName()
+    public String getNamei()
     {
-        return name;
+        return namei;
     }
 
-    public void setName(String name)
+    public void setNamei(String namei)
     {
-        this.name = name;
+        this.namei = namei;
     }
 
     @Override

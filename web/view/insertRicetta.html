@@ -1,1 +1,81 @@
-<h2> {{whereIam}} </h2>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-10 mx-auto">
+            <div class="form-group">
+                <div>
+                    <h2 class="post-title">
+                        Nome
+                    </h2>
+                    <input type="text" class="form-control" id="namer"/>
+                </div>
+                <hr>
+                <div>
+                    <h2 class="post-title">
+                        Ingredienti
+                    </h2>
+                    <table class="table" id="ingredients">
+                        <tr id="ingredient">
+                            <td>
+                                Quantità
+                            </td>
+                            <td>
+                                <input id="qt" type="text" class="form-control" />
+                            </td>
+                            <td>
+                                Unità di misura
+                            </td>
+                            <td>
+                                <input id="unit" type="text" class="form-control" />
+                            </td>
+                            <td>
+                                Ingrediente
+                            </td>
+                            <td ng-init="listIngredients()">
+                                <select class="form-control" id="ilist">
+                                    
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <button ng-click="addIngredient()" class="form-control">Aggiungi Ingrediente</button>
+                    <hr>
+                    <button ng-click="newIngredient()" class="form-control">Nuovo Ingrediente</button>
+                </div>
+                <hr>
+                <div>
+                    <h2 class="post-title">
+                        Cottura
+                    </h2>
+                    <table class="table">
+                        <tr>
+                            <td>Tempo</td>
+                            <td><input type="text" class="form-control" id="timer"></td>
+                        </tr>
+                        <tr>
+                            <td>Temperatura</td>
+                            <td><input type="text" class="form-control" id="temp"></td>
+                        </tr>
+                    </table>
+                </div>
+                <hr>
+                <div>
+                    <h3 class="post-subtitle">
+                        Descrizione breve
+                    </h3>
+                    <input type="text" class="form-control" id="shortdescr">
+                </div>
+                <hr>
+                <div>
+                    <h2 class="post-title">
+                        Descrizione
+                    </h2>
+                    <textarea class="form-control" rows="20" id="descr"></textarea>
+                </div>
+                <hr>
+                <div>
+                    <button class="form-control" ng-click="insertRecipe()">Inserisci Ricetta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

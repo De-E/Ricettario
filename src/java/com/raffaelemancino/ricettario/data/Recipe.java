@@ -9,13 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -23,33 +23,39 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "recipe")
+@XmlRootElement
 @NamedQueries(
 {
-    @NamedQuery(name = "Recipe.findAll", query = "SELECT r FROM Recipe r")
+    @NamedQuery(name = "Recipe.findAll", query = "SELECT r FROM Recipe r"),
+    @NamedQuery(name = "Recipe.findByIdr", query = "SELECT r FROM Recipe r WHERE r.idr = :idr"),
+    @NamedQuery(name = "Recipe.findByNamer", query = "SELECT r FROM Recipe r WHERE r.namer = :namer"),
+    @NamedQuery(name = "Recipe.findByTimer", query = "SELECT r FROM Recipe r WHERE r.timer = :timer"),
+    @NamedQuery(name = "Recipe.findByTemp", query = "SELECT r FROM Recipe r WHERE r.temp = :temp"),
+    @NamedQuery(name = "Recipe.findByDesc", query = "SELECT r FROM Recipe r WHERE r.desc = :desc"),
+    @NamedQuery(name = "Recipe.findByShortdesc", query = "SELECT r FROM Recipe r WHERE r.shortdesc = :shortdesc")
 })
 public class Recipe implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idr")
     private Integer idr;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Size(max = 45)
+    @Column(name = "namer")
+    private String namer;
     @Column(name = "timer")
-    private Float timer;
+    private Integer timer;
     @Column(name = "temp")
     private Integer temp;
-    @Size(max = 50)
-    @Column(name = "name")
-    private String name;
-    @Size(max = 200)
-    @Column(name = "desc")
-    private String desc;
-    @Size(max = 50)
-    @Column(name = "shortdesc")
-    private String shortdesc;
+    @Size(max = 500)
+    @Column(name = "descr")
+    private String descr;
+    @Size(max = 45)
+    @Column(name = "shortdescr")
+    private String shortdescr;
 
     public Recipe()
     {
@@ -70,12 +76,22 @@ public class Recipe implements Serializable
         this.idr = idr;
     }
 
-    public Float getTimer()
+    public String getNamer()
+    {
+        return namer;
+    }
+
+    public void setNamer(String namer)
+    {
+        this.namer = namer;
+    }
+
+    public Integer getTimer()
     {
         return timer;
     }
 
-    public void setTimer(Float timer)
+    public void setTimer(Integer timer)
     {
         this.timer = timer;
     }
@@ -90,34 +106,24 @@ public class Recipe implements Serializable
         this.temp = temp;
     }
 
-    public String getName()
+    public String getDescr()
     {
-        return name;
+        return descr;
     }
 
-    public void setName(String name)
+    public void setDescr(String descr)
     {
-        this.name = name;
+        this.descr = descr;
     }
 
-    public String getDesc()
+    public String getShortdescr()
     {
-        return desc;
+        return shortdescr;
     }
 
-    public void setDesc(String desc)
+    public void setShortdescr(String shortdescr)
     {
-        this.desc = desc;
-    }
-
-    public String getShortdesc()
-    {
-        return shortdesc;
-    }
-
-    public void setShortdesc(String shortdesc)
-    {
-        this.shortdesc = shortdesc;
+        this.shortdescr = shortdescr;
     }
 
     @Override

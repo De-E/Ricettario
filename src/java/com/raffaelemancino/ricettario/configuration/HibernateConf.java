@@ -29,6 +29,11 @@ public class HibernateConf
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         
         this.sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-        this.session = sessionFactory.openSession();
+        this.session = this.sessionFactory.openSession();
+    }
+    
+    public Session newSession()
+    {
+        return this.sessionFactory.openSession();
     }
 }

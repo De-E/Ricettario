@@ -6,12 +6,15 @@
 package com.raffaelemancino.ricettario.core;
 
 import com.raffaelemancino.ricettario.configuration.Application;
-import com.raffaelemancino.ricettario.core.view.IngredientiPerRicetta;
+import com.raffaelemancino.ricettario.data.view.IngredientiPerRicetta;
+import com.raffaelemancino.ricettario.data.Ingredient;
 import com.raffaelemancino.ricettario.data.Recipe;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,7 +63,7 @@ public class RestfulController
     {
         List<IngredientiPerRicetta> ret = new ArrayList<>();
         
-        String query = "SELECT qt, unit, i.name FROM recipe AS r JOIN ( recipeingredient AS ri NATURAL JOIN ingredient AS i) ON r.idr = ri.idr AND r.idr = :idr";
+        String query = "SELECT qt, unit, i.namei FROM recipe AS r JOIN ( recipeingredient AS ri NATURAL JOIN ingredient AS i) ON r.idr = ri.idr AND r.idr = :idr";
         ret = (List<IngredientiPerRicetta>)this.session.createSQLQuery(query)
                 .setInteger("idr", idr)
                 .setResultTransformer(Transformers.aliasToBean(IngredientiPerRicetta.class))
@@ -69,20 +72,20 @@ public class RestfulController
     }
     
     @RequestMapping(value = "/insertR", method = RequestMethod.POST)
-    public boolean ricettaInsert(@RequestBody Recipe ricetta)
+    public Integer ricettaInsert(@RequestBody Recipe recipe)
     {
-        Integer i = (Integer)this.session.createQuery("SELECT MAX(idr) FROM recipe").list().get(0);
-        ricetta.setIdr(i+1);
-        
+        Integer i = (Integer)this.session.createSQLQuery("SELECT MAX(idr) FROM recipe").list().get(0);
+        recipe.setIdr(i+1);
         try
         {
+            this.session = Application.hibernate.newSession();
             this.session.beginTransaction();
-            this.session.save(ricetta);
+            this.session.save(recipe);
             this.session.getTransaction().commit();
-            return true;
+            return i+1;
         } catch (Exception e)
         {
-            return false;
+            return -1;
         }
     }
     
@@ -90,9 +93,23 @@ public class RestfulController
     public List searchRecipe(@RequestParam String param)
     {
         List<Recipe> ret;
-        String query = "SELECT * FROM recipe WHERE LOWER(name) LIKE LOWER('%" + param + "%')";
+        String query = "SELECT * FROM recipe WHERE LOWER(namer) LIKE LOWER('%" + param + "%')";
         ret = this.session.createSQLQuery(query)
                 .setResultTransformer(Transformers.aliasToBean(Recipe.class))
+                .list();
+        
+        return ret;
+    }
+    
+    @RequestMapping(value = "/listI", method = RequestMethod.GET)
+    public List listIngredients()
+    {
+        List<Ingredient> ret;
+        
+        String query = "SELECT * FROM ingredient";
+        
+        ret = this.session.createSQLQuery(query)
+                .setResultTransformer(Transformers.aliasToBean(Ingredient.class))
                 .list();
         
         return ret;

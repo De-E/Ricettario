@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package com.raffaelemancino.ricettario.core.view;
+package com.raffaelemancino.ricettario.data.view;
 
 /**
  *
@@ -25,5 +25,5 @@ public class IngredientiPerRicetta
 {
     public Float qt;
     public String unit;
-    public String name;
+    public String namei;
 }
