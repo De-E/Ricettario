@@ -31,8 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Recipe.findByNamer", query = "SELECT r FROM Recipe r WHERE r.namer = :namer"),
     @NamedQuery(name = "Recipe.findByTimer", query = "SELECT r FROM Recipe r WHERE r.timer = :timer"),
     @NamedQuery(name = "Recipe.findByTemp", query = "SELECT r FROM Recipe r WHERE r.temp = :temp"),
-    @NamedQuery(name = "Recipe.findByDesc", query = "SELECT r FROM Recipe r WHERE r.desc = :desc"),
-    @NamedQuery(name = "Recipe.findByShortdesc", query = "SELECT r FROM Recipe r WHERE r.shortdesc = :shortdesc")
 })
 public class Recipe implements Serializable
 {

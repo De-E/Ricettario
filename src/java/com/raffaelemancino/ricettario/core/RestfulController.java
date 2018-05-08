@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,6 +10,7 @@ import com.raffaelemancino.ricettario.configuration.Application;
 import com.raffaelemancino.ricettario.data.view.IngredientiPerRicetta;
 import com.raffaelemancino.ricettario.data.Ingredient;
 import com.raffaelemancino.ricettario.data.Recipe;
+import com.raffaelemancino.ricettario.data.Recipeingredient;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
@@ -29,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RestfulController
 {
-    private Session session = Application.hibernate.session;
+    private Session session = Application.hibernate.newSession();
     
     @RequestMapping(value = "/listR", method = RequestMethod.GET)
     public List ricettaFindAll()
@@ -74,17 +76,20 @@ public class RestfulController
     @RequestMapping(value = "/insertR", method = RequestMethod.POST)
     public Integer ricettaInsert(@RequestBody Recipe recipe)
     {
+        this.session = Application.hibernate.newSession();
         Integer i = (Integer)this.session.createSQLQuery("SELECT MAX(idr) FROM recipe").list().get(0);
-        recipe.setIdr(i+1);
+        recipe.setIdr(i+1);        
         try
         {
-            this.session = Application.hibernate.newSession();
-            this.session.beginTransaction();
-            this.session.save(recipe);
-            this.session.getTransaction().commit();
+            Transaction tx = null;
+            tx = this.session.beginTransaction();
+            //Recipe r = (Recipe) session.merge(recipe);
+            this.session.saveOrUpdate(recipe);
+            tx.commit();
             return i+1;
         } catch (Exception e)
         {
+            
             return -1;
         }
     }
@@ -113,5 +118,50 @@ public class RestfulController
                 .list();
         
         return ret;
+    }
+    
+    @RequestMapping(value = "/insertRI", method = RequestMethod.POST)
+    public void insertRecipeInsert(@RequestBody ArrayList<Recipeingredient> recipeIngredients)
+    {
+        Transaction tx = null;
+        tx = this.session.beginTransaction();
+        
+        try
+        {
+            for(int i=0; i<recipeIngredients.size(); i++)
+            {
+                //Recipe r = (Recipe) session.merge(recipe);
+                this.session.saveOrUpdate(recipeIngredients.get(i));
+                
+            }
+            tx.commit();
+        } catch (Exception ex)
+        {
+            if(tx != null)
+            {
+                tx.rollback();
+            }
+        }
+    }
+    
+    @RequestMapping(value = "/insertI", method = RequestMethod.POST)
+    public boolean insertIngredient(@RequestBody Ingredient ingredient)
+    {
+        //this.session = Application.hibernate.newSession();
+        Integer i = (Integer)this.session.createSQLQuery("SELECT MAX(idi) FROM ingredient").list().get(0);
+        ingredient.setIdi(i+1);
+        try
+        {
+            Transaction tx = null;
+            tx = this.session.beginTransaction();
+            //Recipe r = (Recipe) session.merge(recipe);
+            this.session.save(ingredient);
+            tx.commit();
+            return true;
+        } catch (Exception e)
+        {
+            System.out.println(e.toString());
+            return false;
+        }
     }
 }

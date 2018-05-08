@@ -152,9 +152,7 @@ application.controller("readRicettaController", function ($scope, $http, $routeP
 });
 
 application.controller("insertRicettaController", function ($scope, $http)
-{
-    var idr_f = 0; //id inserted recipe
-    
+{    
     $scope.listIngredients = function ()
     {
         $http.get("/Ricettario/listI")
@@ -165,8 +163,8 @@ application.controller("insertRicettaController", function ($scope, $http)
                     for(var i=0; i<rest.length; i++)
                     {
                         var option = document.createElement("option");
-                        option.innerHTML = rest[i].namer;
-                        console.log(rest[i].namer);
+                        option.innerHTML = rest[i].namei;
+                        option.setAttribute("id",rest[i].idi);
                         select.appendChild(option);
                     }
                 });
@@ -181,11 +179,22 @@ application.controller("insertRicettaController", function ($scope, $http)
     
     $scope.newIngredient = function ()
     {
-        var namer = prompt("Nome ingrediente", "Inserire il nome");
-        /**
-         * creare metodo per inserire nuovo ingrediente
-         */
-        location.reload();
+        var namei = prompt("Nome ingrediente", "Inserire il nome");
+        var ingredient = {
+            idi: 0,
+            namei: namei
+        };
+        $http.post("/Ricettario/insertI", ingredient)
+                .then(function (response)
+        {
+            if(response.data==true)
+            {
+                alert("Inserted");
+                location.reload();
+            }else{
+                alert("Error");
+            }
+        });
     };
     
     $scope.insertRecipe = function ()
@@ -204,17 +213,38 @@ application.controller("insertRicettaController", function ($scope, $http)
             "descr": descr,
             "shortdescr": shortdescr
         };
-        
         $http.post('/Ricettario/insertR', recipe)
             .then(function(response)
             {
-                idr_f = response.data;
-                alert(idr_f);
+                var ir = response.data;
+                var list = [];
+                
+                var ingredients = document.getElementById("ingredients").getElementsByTagName("tr");
+                for(var i=0; i<ingredients.length; i++)
+                {
+                    var ii = ingredients[i]
+                            .getElementsByTagName("select")
+                            .ilist[ingredients[i].getElementsByTagName("select").ilist.selectedIndex]
+                            .id;
+                    var qt = ingredients[i].getElementsByTagName("input").qt.value;
+                    var unit = ingredients[i].getElementsByTagName("input").unit.value;
+                    
+                    var recipeingredient = {
+                        recipeingredientPK: {idr: ir, idi: ii},
+                        qt: qt,
+                        unit: unit,
+                    };
+                    
+                    list[i] = recipeingredient;
+                }
+                $http.post("/Ricettario/insertRI", list)
+                        .then(function (response) {});
+                location.reload();
             });
     };
     
-    $scope.insertIngredientRecipe = function()
+    $scope.insertIngredientRecipe = function (elements)
     {
-        
+                
     };
 });

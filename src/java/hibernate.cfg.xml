@@ -7,6 +7,10 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cookbook?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">root</property>
+    <property name="show_sql">true</property>
     <mapping class="com.raffaelemancino.ricettario.data.Recipe"/>
+    <mapping class="com.raffaelemancino.ricettario.data.Recipeingredient"/>
+    <mapping class="com.raffaelemancino.ricettario.data.Ingredient"/>
+    
   </session-factory>
 </hibernate-configuration>
